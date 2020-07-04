@@ -19,8 +19,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -44,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         userET = findViewById(R.id.usernameEditText);
         passET = findViewById(R.id.passwordEditText);
         emailET = findViewById(R.id.emailEditText);
-        registerUserBtn = findViewById(R.id.reigsterUserBtn);
+        registerUserBtn = findViewById(R.id.registerUserBtn);
 
         // Firebase Auth
         //auth = FirebaseAuth.getInstance();
