@@ -32,6 +32,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         },SPLASH_SCREEN);
-
+        Log.d(TAG, "end of MainActivity");
     }
 }
