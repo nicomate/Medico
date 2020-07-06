@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         userET = findViewById(R.id.usernameEditText);
         passET = findViewById(R.id.passwordEditText);
         emailET = findViewById(R.id.emailEditText);
-        registerUserBtn = findViewById(R.id.registerUserBtn);
+        registerUserBtn = findViewById(R.id.registerButton);
 
         // Firebase Auth
         //auth = FirebaseAuth.getInstance();
@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Adding Event Listener to Button Register
         registerUserBtn.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
+            @Override
             public void onClick(View v) {
                 String username_text = userET.getText().toString();
                 String email_text = emailET.getText().toString();
@@ -64,11 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             }
-        });{
-
-        }
-
-
+        });
     }
 
     //deals with auth system with firebase

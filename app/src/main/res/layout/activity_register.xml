@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <Button
-        android:id="@+id/registerUserBtn"
+        android:id="@+id/registerButton"
         style="@android:style/Widget.Material.Button.Colored"
         android:layout_width="170dp"
         android:layout_height="60dp"
