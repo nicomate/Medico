@@ -26,7 +26,7 @@ public class LandingPage extends AppCompatActivity {
     private static final String TAG = "LandingPage";
 
     // Widgets
-    Button registerBtn, loginButton;
+    Button registerBtn, loginButton, chatButton;
 
     // Firebase
     FirebaseUser firebaseUser;
@@ -57,18 +57,23 @@ public class LandingPage extends AppCompatActivity {
         //Initialising Widgets
         registerBtn = findViewById(R.id.buttonRegister);
         loginButton = findViewById(R.id.loginBtn);
+        chatButton = findViewById(R.id.chatBtn);
 
        registerBtn.setOnClickListener(v -> {
            Intent intent = new Intent(LandingPage.this, RegisterActivity.class);
            startActivity(intent);
        });
 
-
-       //TO DO - make login button invisible if user is logged in
+       //TO DO - make login button invisible/not visible if user is logged in
        loginButton.setOnClickListener(v -> {
            Intent i = new Intent(LandingPage.this, LoginActivity.class);
            startActivity(i);
            Log.d(TAG, "landingPage - login button");
+       });
+
+       chatButton.setOnClickListener(v -> {
+           Intent chat = new Intent(LandingPage.this, ChatActivity.class);
+           startActivity(chat);
        });
 
         Log.d(TAG, "landingPage - work");
@@ -84,16 +89,13 @@ public class LandingPage extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Users users = dataSnapshot.getValue(Users.class);
-
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
                 }
             });
         } catch (Exception e){
-
         }
 
     }
@@ -102,7 +104,6 @@ public class LandingPage extends AppCompatActivity {
     // TO DO switch as a button on the landing page instead of menu
     // only show visible if user is logged in
     //remove menu.xml items
-    // switch style to noaction bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
