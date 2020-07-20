@@ -5,12 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.UsersFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_height="match_parent"
-        android:text="WELCOME TO USERS FRAGMENT"
-        android:textColor="#00BCD4"
-        android:textSize="30sp" />
+        android:layout_width="match_parent"
+        android:id="@+id/recyclerView"/>
 
 </FrameLayout>

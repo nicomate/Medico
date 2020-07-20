@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
         /*
          Checking for users existance: Saving the current user
-         TO DO!!! - Change the end??
+         TODO: - Change the end??
         */
         if (firebaseUser != null){
             Intent i = new Intent(LoginActivity.this, LandingPage.class);

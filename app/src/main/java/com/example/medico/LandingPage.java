@@ -32,20 +32,6 @@ public class LandingPage extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference myRef;
 
-    /*@Override
-   protected void onStart() {
-       super.onStart();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-     if (firebaseUser == null) {
-       Intent i = new Intent(LandingPage.this, LoginActivity.class);
-        startActivity(i);
-        finish();
-
-         Checking for users existance: Saving the current user
-         TO DO!!! - Change the end??
-       }
-    }            */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,7 +50,7 @@ public class LandingPage extends AppCompatActivity {
            startActivity(intent);
        });
 
-       //TO DO - make login button invisible/not visible if user is logged in
+       //TODO - make login button invisible/not visible if user is logged in
        loginButton.setOnClickListener(v -> {
            Intent i = new Intent(LandingPage.this, LoginActivity.class);
            startActivity(i);
@@ -101,7 +87,7 @@ public class LandingPage extends AppCompatActivity {
     }
 
     // Adding Logout Functionality
-    // TO DO switch as a button on the landing page instead of menu
+    // TODO switch as a button on the landing page instead of menu
     // only show visible if user is logged in
     //remove menu.xml items
     @Override
@@ -116,7 +102,7 @@ public class LandingPage extends AppCompatActivity {
 
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                //TO CHANGE THIS?? ~1:11:49
+                //TODO CHANGE THIS?? ~1:11:49
                 startActivity(new Intent(LandingPage.this, LoginActivity.class));
                 finish();
                 return true;
