@@ -2,6 +2,7 @@ package com.example.medico;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.medico.Adapter.MessageAdapter;
+import com.example.medico.model.Chat;
 import com.example.medico.model.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,10 +27,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import android.util.Log;
 
 
 public class MessageActivity extends AppCompatActivity {
+
+    private static final String TAG = "MessageActivity";
+
 
     TextView username;
     ImageView imageView;
@@ -41,6 +51,10 @@ public class MessageActivity extends AppCompatActivity {
     DatabaseReference reference;
     Intent intent;
 
+    MessageAdapter messageAdapter;
+    List<Chat> mchat;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +63,16 @@ public class MessageActivity extends AppCompatActivity {
         // Widget
         imageView = findViewById(R.id.imageview_profile);
         username = findViewById(R.id.usernamey);
-
         sendBtn = findViewById(R.id.btn_send);
         msg_editText = findViewById(R.id.text_send);
 
+        // RecyclerView
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         intent = getIntent();
         String userid = intent.getStringExtra("userid");
@@ -73,6 +93,8 @@ public class MessageActivity extends AppCompatActivity {
                             .load(user.getImageURL())
                             .into(imageView);
                 }
+
+                readMessages(fuser.getUid(), userid, user.getImageURL());
             }
 
             @Override
@@ -103,15 +125,46 @@ public class MessageActivity extends AppCompatActivity {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
-        hashMap.put("receiver", message);
+        hashMap.put("receiver", receiver);
         hashMap.put("message", message);
 
         reference.child("Chats").push().setValue(hashMap);
+        Log.d(TAG, "sendMessage: sendMessage");
+
     }
 
+    private void readMessages(String myid, String userid, String imageurl) {
+        mchat = new ArrayList<>();
+        Log.d(TAG, "readMessages: starting");
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mchat.clear();
+                Log.d(TAG, "onDataChange: clear");
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-    private void setSupportActionBar(Toolbar toolbar) {
+                    Chat chat = snapshot.getValue(Chat.class);
+                    
 
+                    if(chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
+                            chat.getReceiver().equals(userid) && chat.getSender().equals(myid)) {
+                        Log.d(TAG, "onDataChange:if statement");
+                        mchat.add(chat);
+                        Log.d(TAG, "onDataChange: addchat");
+                    }
 
+                    messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
+                    Log.d(TAG, "onDataChange: messageAdapter");
+                    recyclerView.setAdapter(messageAdapter);
+                    Log.d(TAG, "onDataChange: recyclerview");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(TAG, "onCancelled: error");
+            }
+        });
     }
 }
