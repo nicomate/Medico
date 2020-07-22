@@ -26,12 +26,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        /*
-         Checking for users existance: Saving the current user
-         TODO: - Change the end??
-        */
         if (firebaseUser != null){
-            Intent i = new Intent(LoginActivity.this, LandingPage.class);
+            Intent i = new Intent(LoginActivity.this, LandingPageActivity.class);
             startActivity(i);
             finish();
         }
@@ -72,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 auth.signInWithEmailAndPassword(email_text, pass_text)
                         .addOnCompleteListener(task -> {
                             if(task.isSuccessful()){
-                                Intent i = new Intent(LoginActivity.this, LandingPage.class);
+                                Intent i = new Intent(LoginActivity.this, LandingPageActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
                                 finish();

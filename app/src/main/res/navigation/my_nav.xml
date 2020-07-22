@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/informationFragment"
-        android:name="com.example.medico.Information"
+        android:name="com.example.medico.Fragments.InformationFragment"
         android:label="fragment_information"
         tools:layout="@layout/fragment_information" />
     <fragment
         android:id="@+id/journalFragment"
-        android:name="com.example.medico.Journal"
+        android:name="com.example.medico.Fragments.JournalFragment"
         android:label="fragment_journal"
         tools:layout="@layout/fragment_journal" />
     <fragment
         android:id="@+id/forumFragment"
-        android:name="com.example.medico.Forum"
+        android:name="com.example.medico.Fragments.ForumFragment"
         android:label="fragment_forum"
         tools:layout="@layout/fragment_forum" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.medico.Profile"
+        android:name="com.example.medico.Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment

@@ -29,9 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Set;
 
-public class LandingPage extends AppCompatActivity {
-
-    private static final String TAG = "LandingPage";
+public class LandingPageActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     NavController navController;
@@ -40,16 +38,12 @@ public class LandingPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.d(TAG, "landingPage - onCreate");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-        //appBarConfiguration = AppBarConfiguration(())
 
     }
 }

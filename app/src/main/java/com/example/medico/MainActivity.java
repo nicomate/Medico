@@ -8,9 +8,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         //handler that automatically goes to next activity based on timer
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, LandingPage.class);
+            Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
             startActivity(intent);
             finish();
         },SPLASH_SCREEN);

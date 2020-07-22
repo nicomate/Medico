@@ -1,4 +1,4 @@
-package com.example.medico;
+package com.example.medico.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.medico.ChatActivity;
+import com.example.medico.LoginActivity;
+import com.example.medico.R;
+import com.example.medico.RegisterActivity;
 import com.example.medico.model.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,9 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Information extends Fragment {
+public class InformationFragment extends Fragment {
 
-    private static final String TAG = "Information";
     // Widgets
     Button registerBtn, loginButton, chatButton;
 
@@ -38,7 +41,7 @@ public class Information extends Fragment {
     FirebaseUser firebaseUser;
     DatabaseReference myRef;
 
-    public Information() {
+    public InformationFragment() {
         // Required empty public constructor
     }
 
@@ -54,16 +57,22 @@ public class Information extends Fragment {
         loginButton = view.findViewById(R.id.loginBtn);
         chatButton = view.findViewById(R.id.chatBtn);
 
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            registerBtn.setVisibility(View.GONE);
+            loginButton.setVisibility(View.GONE);
+        } else {
+            chatButton.setVisibility(View.GONE);
+        }
+
+
         registerBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), RegisterActivity.class);
             startActivity(intent);
         });
 
-        //TODO - make login button invisible/not visible if user is logged in
         loginButton.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), LoginActivity.class);
             startActivity(i);
-            Log.d(TAG, "landingPage - login button");
         });
 
         chatButton.setOnClickListener(v -> {
@@ -71,12 +80,9 @@ public class Information extends Fragment {
             startActivity(chat);
         });
 
-        Log.d(TAG, "landingPage - work");
-
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        //try catch to bypass null exception if user is not logged in
+        //try catch to bypass null exception if user is not logged in - required
         try{
             myRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser
                     .getUid());

@@ -1,27 +1,32 @@
-package com.example.medico;
+package com.example.medico.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.medico.LandingPageActivity;
+import com.example.medico.LoginActivity;
+import com.example.medico.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Profile extends Fragment {
+public class ProfileFragment extends Fragment {
 
     Button logout;
+    FirebaseUser firebaseUser;
 
-    public Profile() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
@@ -29,6 +34,16 @@ public class Profile extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (firebaseUser == null) {
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            startActivity(i);
+            getActivity().onBackPressed();
+            Toast.makeText(getActivity(), "You need to Log in to access your Profile!", Toast.LENGTH_SHORT).show();
+        }
+
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         logout = view.findViewById(R.id.logout);
@@ -37,7 +52,7 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getActivity(), LandingPage.class));
+                startActivity(new Intent(getActivity(), LandingPageActivity.class));
                 getActivity().finish();
             }
         });

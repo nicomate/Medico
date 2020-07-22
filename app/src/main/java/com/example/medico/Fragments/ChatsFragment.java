@@ -1,5 +1,6 @@
 package com.example.medico.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +12,10 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.medico.Adapter.UserAdapter;
+import com.example.medico.LoginActivity;
 import com.example.medico.R;
 import com.example.medico.model.Chatlist;
 import com.example.medico.model.Users;
@@ -44,41 +47,56 @@ public class ChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         View view = inflater.inflate(R.layout.fragment_chats,
                 container,
                 false);
+
+
         recyclerView = view.findViewById(R.id.recycler_view2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
+        if (fuser == null) {
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            startActivity(i);
+            getActivity().onBackPressed();
+            Toast.makeText(getActivity(), "You need to Log in to access your Chat!", Toast.LENGTH_SHORT).show();
+        }
+
         usersList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("ChatList")
-                .child(fuser.getUid());
+        try {
+            reference = FirebaseDatabase.getInstance().getReference("ChatList")
+                    .child(fuser.getUid());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    usersList.clear();
 
-                usersList.clear();
+                    //Loop for all users
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                //Loop for all users
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Chatlist chatlist = snapshot.getValue(Chatlist.class);
+                        usersList.add(chatlist);
+                    }
 
-                    Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                    usersList.add(chatlist);
+                    chatList();
                 }
 
-                chatList();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        } catch (Exception e) {
 
-            }
-        });
+        }
+
+
 
         return view;
     }
