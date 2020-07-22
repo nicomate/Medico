@@ -90,33 +90,11 @@ public class Information extends Fragment {
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
+
         }
+
+
     return view;
     }
-
-    // Adding Logout Functionality
-    // TODO switch as a button on the landing page instead of menu
-    // only show visible if user is logged in
-    //remove menu.xml items
-   // @Override
-   // public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-   //     inflater.inflate(R.menu.menu, menu);
-   //     super.onCreateOptionsMenu(menu,inflater);
-  //  }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-
-            case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                //TODO CHANGE THIS?? ~1:11:49
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finish();
-                return true;
-        }
-        return false;
-    }
-
 }
