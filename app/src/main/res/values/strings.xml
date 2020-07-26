@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">Medico</string>
     <string name="support">Supporting Mental Health</string>
+    <string name="info">Mental illness is very common. One in five (20%) Australians aged 16-85 experience a mental illness in any year. The most common mental illnesses are depressive, anxiety and substance use disorder. These three types of mental illnesses often occur in combination. For example, a person with an anxiety disorder could also develop depression, or a person with depression might misuse alcohol or other drugs, in an effort to self-medicate. Of the 20% of Australians with a mental illness in any one year, 11.5% have one disorder and 8.5% have two or more disorders. Almost half (45%) Australians will experience a mental illness in their lifetime
+
+
+54% of people with mental illness do not access any treatment. This is worsened by delayed treatment due to serious problems in detection and accurate diagnosis. The proportion of people with mental illness accessing treatment is half that of people with physical disorders
+
+Every day, at least six Australians die from suicide and a further thirty people will attempt to take their own life. While suicide accounts for only a relatively small proportion (1.6%) of all deaths in Australia, it does account for a greater proportion of deaths from all causes within specific age groups. For example, suicide is the leading cause of death for people Australians aged 25-44 and second leading cause of death for young people aged 15-24.
+
+Depression has high lifetime prevalence - one in seven Australians will experience depression in their lifetime. Depression has the third highest burden of all diseases in Australia (13%) and also third globally. Burden of disease refers to the total impact of a disease measured by financial cost, mortality, morbidity and other indicators. It is often expressed as number of years of life lost due to ill-health, disability or early death.
+
+</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

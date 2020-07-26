@@ -26,11 +26,11 @@
             android:id="@+id/loginBtn"
             android:layout_width="158dp"
             android:layout_height="57dp"
-            android:layout_marginBottom="112dp"
+            android:layout_marginBottom="48dp"
             android:text="Log In here"
             app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.463"
+            app:layout_constraintHorizontal_bias="0.54"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -48,13 +48,18 @@
             android:id="@+id/infotext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="134dp"
+            android:layout_marginEnd="137dp"
+            android:layout_marginBottom="370dp"
             android:fontFamily="@font/roboto"
-            android:text="Welcome to Information fragment"
+            android:text="information fragment"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/chatBtn" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
