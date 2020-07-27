@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:clickable="true"
@@ -28,8 +29,21 @@
             android:layout_height="43dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
 
+            android:fontFamily="@font/roboto"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/ivArt"
+            app:layout_constraintTop_toTopOf="@+id/ivArt" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="66dp"
+            android:fontFamily="@font/roboto"
+            android:text="Bachelor of Counselling"
             app:layout_constraintStart_toEndOf="@+id/ivArt"
             app:layout_constraintTop_toTopOf="@+id/ivArt" />
 

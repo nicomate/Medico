@@ -86,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("id", userid);
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
+                            hashMap.put("practitioner", "no");
 
                             // Opening the LandingPageActivity after Successful Registration -- user must register/login to access main method??
                             myRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

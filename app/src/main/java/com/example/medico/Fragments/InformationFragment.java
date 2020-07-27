@@ -6,16 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.medico.ChatActivity;
 import com.example.medico.LoginActivity;
 import com.example.medico.R;
 import com.example.medico.RegisterActivity;
@@ -35,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 public class InformationFragment extends Fragment {
 
     // Widgets
-    Button registerBtn, loginButton, chatButton;
+    Button registerBtn, loginButton;
 
     // Firebase
     FirebaseUser firebaseUser;
@@ -55,13 +50,11 @@ public class InformationFragment extends Fragment {
         //Initialising Widgets
         registerBtn = view.findViewById(R.id.buttonRegister);
         loginButton = view.findViewById(R.id.loginBtn);
-        chatButton = view.findViewById(R.id.chatBtn);
+
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             registerBtn.setVisibility(View.GONE);
             loginButton.setVisibility(View.GONE);
-        } else {
-            chatButton.setVisibility(View.GONE);
         }
 
 
@@ -75,14 +68,9 @@ public class InformationFragment extends Fragment {
             startActivity(i);
         });
 
-        chatButton.setOnClickListener(v -> {
-            Intent chat = new Intent(getActivity(), ChatActivity.class);
-            startActivity(chat);
-        });
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        //try catch to bypass null exception if user is not logged in - required
+        //try catch to bypass null exception if user is not logged in
         try{
             myRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser
                     .getUid());
@@ -96,10 +84,9 @@ public class InformationFragment extends Fragment {
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
             });
-        } catch (Exception e) {
-
         }
-
+        catch (Exception e) {
+        }
 
     return view;
     }

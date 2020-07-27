@@ -11,7 +11,7 @@ public class Users {
     public Users(){
     }
 
-    public Users(String id, String username, String imageURL) {
+    public Users(String id, String username, String imageURL, String practitioner) {
         this.id = id;
         this.username = username;
         this.imageURL = imageURL;

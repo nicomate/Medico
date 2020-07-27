@@ -17,9 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class JournalFragment extends Fragment {
 
     FirebaseUser firebaseUser;
@@ -41,4 +39,8 @@ public class JournalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_journal, container, false);
         return view;
     }
+
+
+
+
 }

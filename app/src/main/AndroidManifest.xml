@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
         <activity android:name=".MessageActivity"></activity>
-        <activity android:name=".ChatActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity

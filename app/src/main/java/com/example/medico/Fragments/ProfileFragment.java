@@ -89,26 +89,31 @@ public class ProfileFragment extends Fragment {
         //profile image reference in storage
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
-        reference = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        try {
+            reference = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
 
-                Users user = dataSnapshot.getValue(Users.class);
-                username.setText(user.getUsername());
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (user.getImageURL().equals("default")){
-                    imageView.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    Glide.with(getContext()).load(user.getImageURL()).into(imageView);
+                    Users user = dataSnapshot.getValue(Users.class);
+                    username.setText(user.getUsername());
+
+                    if (user.getImageURL().equals("default")){
+                        imageView.setImageResource(R.mipmap.ic_launcher);
+                    } else {
+                        Glide.with(getContext()).load(user.getImageURL()).into(imageView);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         logout = view.findViewById(R.id.logout);
 
@@ -116,8 +121,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getActivity(), LandingPageActivity.class));
-                getActivity().finish();
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
             }
         });
 
