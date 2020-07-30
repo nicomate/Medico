@@ -1,5 +1,7 @@
 package com.example.medico.model;
 
+import java.util.List;
+
 public class Users {
 
     private String id;
@@ -11,7 +13,7 @@ public class Users {
     public Users(){
     }
 
-    public Users(String id, String username, String imageURL, String practitioner) {
+    public Users(String id, String username, String imageURL) {
         this.id = id;
         this.username = username;
         this.imageURL = imageURL;
