@@ -12,39 +12,42 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-            <TextView
-                android:id="@+id/note_data"
-                android:padding="19dp"
-                android:textSize="16sp"
-                style="@style/TextAppearance.Compat.Notification.Title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Demo Text" />
 
-            <TextView
-                android:id="@+id/note_title"
-                style="@style/TextAppearance.Compat.Notification.Title"
+            <EditText
+                android:id="@+id/notetitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="19dp"
-                android:text="Note Title"
-                android:textSize="16sp"
-                android:layout_below="@+id/note_data"/>
+                android:layout_height="73dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:hint="Enter Title"
+                android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/notetime"
-                android:layout_height="wrap_content"
+
+            <EditText
+                android:id="@+id/notedata"
+                android:layout_width="match_parent"
+                android:layout_height="585dp"
+                android:layout_below="@+id/edittext_title"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:text="12 June 01:00"
-                android:textColor="#000"
-                android:padding="10dp"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_alignParentRight="true">
-            </TextView>
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:gravity="top"
+                android:hint="Write here!" />
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/updateNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="30dp"
+        android:foregroundGravity="bottom"
+        android:src="@drawable/ic_create"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

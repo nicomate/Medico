@@ -18,16 +18,21 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.medico.Adapter.NoteItemsAdapter;
+import com.example.medico.Adapter.UserAdapter;
 import com.example.medico.LandingPageActivity;
 import com.example.medico.LoginActivity;
 import com.example.medico.NewNoteActivity;
 import com.example.medico.R;
 import com.example.medico.model.NoteModel;
+import com.example.medico.model.Users;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +97,35 @@ public class JournalFragment extends Fragment {
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance()
-                .getReference("MyUsers");
+                .getReference("Notes");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                noteModels.clear();
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    NoteModel noteModel = snapshot.getValue(NoteModel.class);
+
+                    try {
+                        if(noteModel.getAuthor().equals(firebaseUser.getUid())){
+                            noteModels.add(noteModel);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    noteAdapter =  new NoteItemsAdapter(getContext(),noteModels);
+                    recyclerView.setAdapter(noteAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
 }

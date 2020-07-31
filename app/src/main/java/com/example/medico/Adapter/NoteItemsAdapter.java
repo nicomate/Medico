@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.medico.R;
 import com.example.medico.ViewNoteDataActivity;
 import com.example.medico.model.NoteModel;
-
+import android.util.Log;
 import java.util.List;
 
 
@@ -35,21 +35,18 @@ public class NoteItemsAdapter extends RecyclerView.Adapter<NoteItemsAdapter.View
         View view = LayoutInflater.from(context).inflate(R.layout.note_row, parent);
 
         return new NoteItemsAdapter.ViewHolder(view);
-
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteItemsAdapter.ViewHolder holder, int position) {
         NoteModel noteModel = noteModelList.get(position);
         holder.notetitle.setText(noteModel.getNote_title());
-        holder.create_time.setText(noteModel.getCreated_at());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, ViewNoteDataActivity.class);
-                i.putExtra("notemodelid", noteModel.getId());
+                i.putExtra("notemodelid", noteModel.getAuthor());
                 context.startActivity(i);
             }
         });
@@ -63,13 +60,11 @@ public class NoteItemsAdapter extends RecyclerView.Adapter<NoteItemsAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView notetitle;
-        public TextView create_time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             notetitle = itemView.findViewById(R.id.notetitle);
-            create_time = itemView.findViewById(R.id.create_time);
         }
     }
 

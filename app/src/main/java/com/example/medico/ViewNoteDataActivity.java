@@ -17,7 +17,10 @@ import com.example.medico.R;
 
 public class ViewNoteDataActivity extends Fragment {
 
-    String id, notetext, create_time;
+
+    private static final String TAG = "NewNoteDataActivity";
+
+    String id, notetext;
     TextView note_data, note_time;
 
     public ViewNoteDataActivity() {
@@ -34,13 +37,11 @@ public class ViewNoteDataActivity extends Fragment {
         mbundle = getArguments();
         id = mbundle.getString(Constants.id);
         notetext = mbundle.getString(Constants.note_text);
-        create_time = mbundle.getString(Constants.create_time);
 
-        note_data = view.findViewById(R.id.note_data);
-        note_time = view.findViewById(R.id.create_time);
+        note_data = view.findViewById(R.id.notedata);
+
 
         note_data.setText(notetext);
-        note_time.setText(create_time);
 
 
         return view;
