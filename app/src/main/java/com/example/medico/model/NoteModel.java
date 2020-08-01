@@ -1,12 +1,25 @@
 package com.example.medico.model;
 
 public class NoteModel {
-    private String author, note_title, note_data;
+    private String id, author, note_title, note_data;
 
-    public NoteModel(String author, String note_title, String note_data) {
+    public NoteModel(){
+
+    }
+
+    public NoteModel(String id, String author, String note_title, String note_data) {
+        this.id = id;
         this.author = author;
         this.note_title = note_title;
         this.note_data = note_data;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAuthor() {

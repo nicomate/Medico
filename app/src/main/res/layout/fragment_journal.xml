@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,20 +17,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/notelist"
-            android:padding="10dp">
+            android:id="@+id/notelist"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="30dp"
         android:id="@+id/newNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
         android:src="@drawable/ic_create"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content"/>
+        android:layout_gravity="bottom|end"/>
 
-</RelativeLayout>
+</FrameLayout>
+
+

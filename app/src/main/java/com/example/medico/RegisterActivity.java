@@ -87,18 +87,15 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("imageURL", "default");
 
                             // Opening the LandingPageActivity after Successful Registration -- user must register/login to access main method??
-                            myRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                            myRef.setValue(hashMap).addOnCompleteListener(task1 -> {
 
-                                    if (task.isSuccessful()){
-                                        Intent i = new Intent(RegisterActivity.this, LandingPageActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(i);
-                                        finish();
-                                    }
-
+                                if (task1.isSuccessful()){
+                                    Intent i = new Intent(RegisterActivity.this, LandingPageActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                    finish();
                                 }
+
                             });
 
                         } else {

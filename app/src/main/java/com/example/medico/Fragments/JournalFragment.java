@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,13 +41,15 @@ import java.util.List;
 
 public class JournalFragment extends Fragment {
 
+    private static final String TAG = "JournalFragment";
+
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView1;
     private NoteItemsAdapter noteAdapter;
 
-    List<NoteModel> noteModels = new ArrayList<>();
+    List<NoteModel> noteModels;
 
 
     public JournalFragment() {
@@ -56,8 +59,10 @@ public class JournalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+        Log.d(TAG, "onCreateView: oncreate");
+
         View view = inflater.inflate(R.layout.fragment_journal, container, false);
+        Log.d(TAG, "onCreateView: inflateview");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
@@ -66,21 +71,31 @@ public class JournalFragment extends Fragment {
             getActivity().onBackPressed();
             Toast.makeText(getActivity(), "You need to Log in to access your Journal!", Toast.LENGTH_SHORT).show();
         }
+        Log.d(TAG, "onCreateView: auth");
+
+
+
+
+        recyclerView1 = view.findViewById(R.id.notelist);
+        Log.d(TAG, "onCreateView: recyclerview");
+        recyclerView1.setHasFixedSize(true);
+        Log.d(TAG, "onCreateView: recyclerview sethasfixedsize");
+        recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
+        Log.d(TAG, "onCreateView: recyclerview setlayoutmanager");
+
+
+        noteModels = new ArrayList<>();
+
+        ReadNotes();
+        Log.d(TAG, "onCreateView:  readnotes method");
 
         FloatingActionButton newNote = view.findViewById(R.id.newNote);
         newNote.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), NewNoteActivity.class);
             startActivity(i);
+            Log.d(TAG, "onCreateView: new Note");
+
         });
-
-        recyclerView = view.findViewById(R.id.notelist);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        noteModels = new ArrayList<>();
-
-        ReadNotes();
-
         return view;
     }
 
@@ -90,6 +105,7 @@ public class JournalFragment extends Fragment {
         // Set title bar
         ((LandingPageActivity) getActivity())
                 .setActionBarTitle("Journal Notes");
+        Log.d(TAG, "onResume: set actionbar title");
     }
 
 
@@ -98,31 +114,44 @@ public class JournalFragment extends Fragment {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Notes");
-
+        Log.d(TAG, "ReadNotes:  get ref, fuser");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 noteModels.clear();
+                Log.d(TAG, "onDataChange: clear");
 
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    NoteModel noteModel = snapshot.getValue(NoteModel.class);
-
-                    try {
-                        if(noteModel.getAuthor().equals(firebaseUser.getUid())){
-                            noteModels.add(noteModel);
+                try {
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        Log.d(TAG, "onDataChange: for loop");
+                        NoteModel noteModel = snapshot.getValue(NoteModel.class);
+                        Log.d(TAG, "onDataChange: forloop - get Value");
+                        try {
+                            if(noteModel.getAuthor().equals(firebaseUser.getUid())){
+                                Log.d(TAG, "onDataChange: if statement");
+                                noteModels.add(noteModel);
+                                Log.d(TAG, "onDataChange: if statement addnotemodel");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "onDataChange: if statement error");
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
-                    noteAdapter =  new NoteItemsAdapter(getContext(),noteModels);
-                    recyclerView.setAdapter(noteAdapter);
+                        noteAdapter =  new NoteItemsAdapter(getContext(),noteModels);
+                        Log.d(TAG, "onDataChange: new adapter");
+                        recyclerView1.setAdapter(noteAdapter);
+                        Log.d(TAG, "onDataChange: set adapter");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "onDataChange: for loop catch");
                 }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d(TAG, "onCancelled");
             }
         });
 

@@ -1,56 +1,87 @@
 package com.example.medico;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.medico.Constants;
-import com.example.medico.R;
+import com.bumptech.glide.Glide;
+import com.example.medico.model.NoteModel;
+import com.example.medico.model.Users;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
-public class ViewNoteDataActivity extends Fragment {
-
+public class ViewNoteDataActivity extends AppCompatActivity {
 
     private static final String TAG = "NewNoteDataActivity";
 
-    String id, notetext;
-    TextView note_data, note_time;
-
-    public ViewNoteDataActivity() {
-        // Required empty public constructor
-    }
-
+    Intent intent;
+    TextView notetitle, noteData;
+    String noteid;
+    DatabaseReference reference;
+    FirebaseUser fuser;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_view_note_data, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.view_note_data);
 
-        Bundle mbundle = new Bundle();
-        mbundle = getArguments();
-        id = mbundle.getString(Constants.id);
-        notetext = mbundle.getString(Constants.note_text);
+        notetitle = findViewById(R.id.notetitle);
+        noteData = findViewById(R.id.notedata);
 
-        note_data = view.findViewById(R.id.notedata);
+        intent = getIntent();
+        noteid = intent.getStringExtra("notemodelid");
+        Log.d(TAG, "onCreate: noteid is " + noteid);
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d(TAG, "onCreate: fuser is " + fuser);
+        reference = FirebaseDatabase.getInstance().getReference("Notes").child(noteid);
 
 
-        note_data.setText(notetext);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                String title = dataSnapshot.child("note_title").getValue().toString();
+                String data = dataSnapshot.child("note_data").getValue().toString();
+                Log.d(TAG, "onDataChange: title is " + title);
+                Log.d(TAG, "onDataChange: data is " + data);
+                noteData.setText(data);
+                notetitle.setText(title);
+            }
 
-        return view;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        FloatingActionButton updateNote = findViewById(R.id.updateNote);
+        updateNote.setOnClickListener(v -> {
+
+            String newTitle = notetitle.getText().toString();
+            reference.child("note_title").setValue(newTitle);
+            Log.d(TAG, "onCreate: new title is: " + newTitle);
+
+            String newData = noteData.getText().toString();
+            reference.child("note_data").setValue(newData);
+            Log.d(TAG, "onCreate: new data is: " + newData);
+
+            finish();
+        });
+
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-    }
 }

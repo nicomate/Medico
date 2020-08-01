@@ -20,40 +20,43 @@ import java.util.List;
 
 public class NoteItemsAdapter extends RecyclerView.Adapter<NoteItemsAdapter.ViewHolder> {
 
+    private static final String TAG = "NoteItemsAdapter";
+
     private Context context;
     private List<NoteModel> noteModelList;
 
     public NoteItemsAdapter(Context context, List<NoteModel> noteModelList) {
         this.context = context;
         this.noteModelList = noteModelList;
+        Log.d(TAG, "NoteItemsAdapter: constructor");
     }
 
 
     @NonNull
     @Override
     public NoteItemsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.note_row, parent);
-
+        View view = LayoutInflater.from(context).inflate(R.layout.note_row, parent,false);
+        Log.d(TAG, "onCreateViewHolder");
         return new NoteItemsAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoteItemsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteModel noteModel = noteModelList.get(position);
         holder.notetitle.setText(noteModel.getNote_title());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, ViewNoteDataActivity.class);
-                i.putExtra("notemodelid", noteModel.getAuthor());
-                context.startActivity(i);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent i = new Intent(context, ViewNoteDataActivity.class);
+            i.putExtra("notemodelid", noteModel.getId());
+            context.startActivity(i);
+            Log.d(TAG, "onBindViewHolder: to ViewNoteDataActivity");
         });
+        Log.d(TAG, "onBindViewHolder");
     }
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount");
         return noteModelList.size();
     }
 
@@ -63,9 +66,10 @@ public class NoteItemsAdapter extends RecyclerView.Adapter<NoteItemsAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            Log.d(TAG, "ViewHolder");
             notetitle = itemView.findViewById(R.id.notetitle);
         }
+
     }
 
 
