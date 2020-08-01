@@ -15,6 +15,7 @@ import com.example.medico.R;
 import com.example.medico.ViewNoteDataActivity;
 import com.example.medico.model.NoteModel;
 import android.util.Log;
+
 import java.util.List;
 
 
@@ -72,5 +73,16 @@ public class NoteItemsAdapter extends RecyclerView.Adapter<NoteItemsAdapter.View
 
     }
 
+    public void removeItem(int position) {
+        noteModelList.remove(position);
+        notifyItemRemoved(position);
+    }
 
+    public List<NoteModel> getData(int position) {
+        return noteModelList;
+    }
+
+    public String getId(int position){
+        return noteModelList.get(position).getId();
+    }
 }
