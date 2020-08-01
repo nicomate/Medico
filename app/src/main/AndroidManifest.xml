@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".MessageActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ViewNoteDataActivity"/>
+        <activity android:name=".ViewNoteDataActivity"
+            android:theme="@style/AppTheme"
+            android:label="Notes"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LandingPageActivity"
             android:theme="@style/AppTheme"/>

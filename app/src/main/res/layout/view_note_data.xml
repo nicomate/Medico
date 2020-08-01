@@ -32,20 +32,20 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:gravity="center"
                 android:hint="Enter Title"
-                android:textSize="20sp" />
-            <EditText
-                android:id="@+id/notedata"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:fontFamily="@font/roboto"
-                app:layout_constraintTop_toBottomOf="@+id/notetitle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:gravity="top"
-                android:hint="Write here!"
-                android:importantForAutofill="no"
+                android:textSize="20sp"
                 android:inputType="text" />
+
+        <EditText
+            android:id="@+id/notedata"
+            android:layout_width="354dp"
+            android:layout_height="503dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="top"
+            android:hint="Write here!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notetitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
