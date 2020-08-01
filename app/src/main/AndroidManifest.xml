@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.medico">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,11 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".NewNoteActivity"
+            android:label="New Entry"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".MessageActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".ViewNoteDataActivity"/>
         <activity android:name=".RegisterActivity" />
-        <activity
-            android:name=".LandingPageActivity" />
+        <activity android:name=".LandingPageActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

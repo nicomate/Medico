@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.medico.LandingPageActivity;
 import com.example.medico.LoginActivity;
 import com.example.medico.R;
 import com.example.medico.RegisterActivity;
@@ -90,4 +91,13 @@ public class InformationFragment extends Fragment {
 
     return view;
     }
+
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
+        ((LandingPageActivity) getActivity())
+                .setActionBarTitle("Quick Facts");
+    }
+
 }

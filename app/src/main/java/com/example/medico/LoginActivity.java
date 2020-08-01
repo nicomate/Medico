@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         userETLogin = findViewById(R.id.editTextLogin);
         passETLogin = findViewById(R.id.passwordLogin);
         loginBtn = findViewById(R.id.loginButton);
@@ -46,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Firebase Auth;
         auth = FirebaseAuth.getInstance();
-
 
         // Register Button
         registerBtn.setOnClickListener(v -> {
@@ -80,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-
 
     }
 }

@@ -80,7 +80,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: count");
         return mChat.size();
     }
 
@@ -90,7 +89,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            Log.d(TAG, "ViewHolder: viewholder");
             show_message = itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.profile_image);
         }
@@ -98,10 +96,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        Log.d(TAG, "getItemViewType: a");
+
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         if (mChat.get(position).getSender().equals(fuser.getUid())) {
-            Log.d(TAG, "getItemViewType: if right 3");
             return MSG_TYPE_RIGHT;
         }
         else {

@@ -50,9 +50,8 @@ import static android.app.Activity.RESULT_OK;
  */
 public class ProfileFragment extends Fragment {
 
-    private Button logout;
     private FirebaseUser firebaseUser;
-    private TextView username;
+    private TextView username, logout;
     private ImageView imageView;
 
     private DatabaseReference reference;
@@ -135,6 +134,14 @@ public class ProfileFragment extends Fragment {
 
 
         return view;
+    }
+
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
+        ((LandingPageActivity) getActivity())
+                .setActionBarTitle("Profile");
     }
 
     private void SelectImage() {

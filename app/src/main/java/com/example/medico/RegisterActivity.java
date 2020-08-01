@@ -45,7 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
         registerUserBtn = findViewById(R.id.registerButton);
 
         // Firebase Auth
-        //auth = FirebaseAuth.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Adding Event Listener to Button Register
@@ -86,21 +85,17 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("id", userid);
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
-                            hashMap.put("practitioner", "no");
 
                             // Opening the LandingPageActivity after Successful Registration -- user must register/login to access main method??
-                            myRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                            myRef.setValue(hashMap).addOnCompleteListener(task1 -> {
 
-                                    if (task.isSuccessful()){
-                                        Intent i = new Intent(RegisterActivity.this, LandingPageActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(i);
-                                        finish();
-                                    }
-
+                                if (task1.isSuccessful()){
+                                    Intent i = new Intent(RegisterActivity.this, LandingPageActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                    finish();
                                 }
+
                             });
 
                         } else {

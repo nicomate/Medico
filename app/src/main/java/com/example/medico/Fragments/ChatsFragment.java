@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.medico.Adapter.UserAdapter;
+import com.example.medico.LandingPageActivity;
 import com.example.medico.LoginActivity;
 import com.example.medico.R;
 import com.example.medico.model.Chatlist;
@@ -41,10 +42,6 @@ public class ChatsFragment extends Fragment {
     private List<Users> mUsers;
 
     private FirebaseUser fuser;
-    private DatabaseReference reference;
-
-    private List<Chatlist> usersList;
-
     private RecyclerView recyclerView;
 
     public ChatsFragment() {
@@ -54,7 +51,7 @@ public class ChatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -75,6 +72,15 @@ public class ChatsFragment extends Fragment {
         ReadUsers();
 
         return view;
+    }
+
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
+        ((LandingPageActivity) getActivity())
+                .setActionBarTitle("Chats");
+
     }
 
 

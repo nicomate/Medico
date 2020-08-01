@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.medico.LandingPageActivity;
 import com.example.medico.LoginActivity;
 import com.example.medico.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,5 +34,14 @@ public class ForumFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
         return view;
+    }
+
+    public void onResume(){
+        super.onResume();
+
+        // Set title bar
+        ((LandingPageActivity) getActivity())
+                .setActionBarTitle("Forum");
+
     }
 }

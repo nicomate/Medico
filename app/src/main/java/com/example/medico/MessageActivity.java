@@ -116,8 +116,6 @@ public class MessageActivity extends AppCompatActivity {
                 msg_editText.setText("");
             }
         });
-
-
     }
 
     private void sendMessage(String sender, String receiver, String message) {
@@ -156,7 +154,6 @@ public class MessageActivity extends AppCompatActivity {
 
     private void readMessages(String myid, String userid, String imageurl) {
         mchat = new ArrayList<>();
-        Log.d(TAG, "readMessages: starting");
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
