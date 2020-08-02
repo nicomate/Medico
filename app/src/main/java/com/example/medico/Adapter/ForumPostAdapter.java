@@ -2,6 +2,7 @@ package com.example.medico.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,14 @@ import com.example.medico.R;
 import com.example.medico.ViewForumPostActivity;
 
 import com.example.medico.model.ForumPost;
+import com.example.medico.model.Users;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -26,14 +35,11 @@ public class ForumPostAdapter extends RecyclerView.Adapter<ForumPostAdapter.View
 
     private Context context;
     private List<ForumPost> forumPostList;
-    private String imgURL;
 
-    public ForumPostAdapter(Context context, List<ForumPost> forumPostList, String imgURL) {
+    public ForumPostAdapter(Context context, List<ForumPost> forumPostList) {
         this.context = context;
         this.forumPostList = forumPostList;
-        this.imgURL = imgURL;
     }
-
 
     @NonNull
     @Override
@@ -46,15 +52,32 @@ public class ForumPostAdapter extends RecyclerView.Adapter<ForumPostAdapter.View
     public void onBindViewHolder(@NonNull ForumPostAdapter.ViewHolder holder, int position) {
         ForumPost forumPost = forumPostList.get(position);
         holder.postTitle.setText(forumPost.getPostQuestion());
-        holder.postedBy.setText(forumPost.getPostedBy());
 
-        if (imgURL.equals("default")) {
-            Log.d(TAG, "onBindViewHolder: if img");
-            holder.postedImage.setImageResource(R.mipmap.ic_launcher);
-        } else {
-            Glide.with(context).load(imgURL).into(holder.postedImage);
-        }
 
+        String postedby = forumPostList.get(position).getPostedBy();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("MyUsers").child(postedby);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+                String front = "By: " + user.getUsername();
+                if (user.getImageURL().equals("default")) {
+                    holder.postedImage.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Glide.with(context).load(user.getImageURL()).into(holder.postedImage);
+                }
+                holder.postedBy.setText(front);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+/*
+
+*/
        holder.itemView.setOnClickListener(v -> {
             Intent i = new Intent(context, ViewForumPostActivity.class);
             i.putExtra("forumPostid", forumPost.getPostId());

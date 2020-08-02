@@ -15,10 +15,6 @@ import com.example.medico.LandingPageActivity;
 import com.example.medico.R;
 import com.github.chrisbanes.photoview.PhotoView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class InformationFragment extends Fragment {
 
     public InformationFragment() {

@@ -11,4 +11,11 @@ public class ViewForumPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_forum_post);
     }
+
+    //TODO: view forum post xml layout - postquestion, then text with posted by, using intent extra
+    // Recyclerview of comment - comment adapter
+    // add new comments
+    // comment layout
+    // delete post / delete comment / edit post / edit comment
+
 }

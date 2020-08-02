@@ -55,16 +55,8 @@ public class NewNoteActivity extends AppCompatActivity {
             
             createNote(fuser.getUid(), title, note);
             Log.d(TAG, "onCreate: createNote button");
-
-            //Fragment mFragment = new JournalFragment();
-            //FragmentManager fragmentManager = getSupportFragmentManager();
-           // fragmentManager.beginTransaction().replace(R.id.journalFragment, mFragment)
-            //        .commit();
-
             finish();
             Log.d(TAG, "onCreateView: toJournalFragment");
-
-
         });
     }
 
