@@ -24,7 +24,7 @@
             <EditText
                 android:id="@+id/notetitle"
                 android:layout_width="match_parent"
-                android:layout_height="76dp"
+                android:layout_height="73dp"
                 android:fontFamily="@font/roboto"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/notedata"
@@ -37,15 +37,17 @@
 
         <EditText
             android:id="@+id/notedata"
-            android:layout_width="354dp"
-            android:layout_height="503dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:fontFamily="@font/roboto"
             android:gravity="top"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:hint="Write here!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notetitle" />
+            app:layout_constraintTop_toBottomOf="@+id/notetitle"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -59,7 +61,6 @@
             android:src="@drawable/ic_save"
             android:layout_gravity="bottom|end"
             tools:ignore="RelativeOverlap" />
-
 
     </androidx.cardview.widget.CardView>
 

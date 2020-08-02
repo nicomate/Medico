@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.JournalFragment">
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/coordinator">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -26,17 +19,18 @@
             android:layout_height="match_parent"
             android:id="@+id/notelist"/>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/newNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:src="@drawable/ic_create"
+            android:layout_gravity="bottom|end"/>
 
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:src="@drawable/ic_create"
-        android:layout_gravity="bottom|end"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </FrameLayout>
 
 

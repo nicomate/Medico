@@ -119,4 +119,7 @@ public class ChatsFragment extends Fragment {
 
     }
 
+    // TODO: Make seperate chat fragment views for Practitioners and regular users
+    // If user -> practitioner -> show list of users -> else -> show list of practitioners
+
 }

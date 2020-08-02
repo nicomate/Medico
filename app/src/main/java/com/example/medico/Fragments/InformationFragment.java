@@ -1,41 +1,25 @@
 package com.example.medico.Fragments;
 
-import android.content.Intent;
+
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.medico.LandingPageActivity;
-import com.example.medico.LoginActivity;
 import com.example.medico.R;
-import com.example.medico.RegisterActivity;
-import com.example.medico.model.Users;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.github.chrisbanes.photoview.PhotoView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class InformationFragment extends Fragment {
-
-    // Widgets
-    Button registerBtn, loginButton;
-
-    // Firebase
-    FirebaseUser firebaseUser;
-    DatabaseReference myRef;
 
     public InformationFragment() {
         // Required empty public constructor
@@ -48,48 +32,20 @@ public class InformationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_information, container, false);
 
-        //Initialising Widgets
-        registerBtn = view.findViewById(R.id.buttonRegister);
-        loginButton = view.findViewById(R.id.loginBtn);
-
-
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            registerBtn.setVisibility(View.GONE);
-            loginButton.setVisibility(View.GONE);
-        }
-
-
-        registerBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), RegisterActivity.class);
-            startActivity(intent);
-        });
-
-        loginButton.setOnClickListener(v -> {
-            Intent i = new Intent(getActivity(), LoginActivity.class);
-            startActivity(i);
-        });
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        //try catch to bypass null exception if user is not logged in
-        try{
-            myRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser
-                    .getUid());
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Users users = dataSnapshot.getValue(Users.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }
-            });
-        }
-        catch (Exception e) {
-        }
 
     return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final PhotoView imageView = view.findViewById(R.id.photo_view);
+        imageView.setImageResource(R.drawable.quickfacts3);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // TODO: make image topcrop https://github.com/chrisbanes/PhotoView/issues/203
+        // cant edit source code of photoview library
     }
 
     public void onResume(){
@@ -97,7 +53,15 @@ public class InformationFragment extends Fragment {
 
         // Set title bar
         ((LandingPageActivity) getActivity())
-                .setActionBarTitle("Quick Facts");
+                .setActionBarTitle("Health Facts");
+    }
+
+    private int getImageViewWidth(ImageView imageView) {
+        return imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+    }
+
+    private int getImageViewHeight(ImageView imageView) {
+        return imageView.getHeight() - imageView.getPaddingTop() - imageView.getPaddingBottom();
     }
 
 }

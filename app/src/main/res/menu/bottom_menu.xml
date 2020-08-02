@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/informationFragment"
-        android:title="Information"
+        android:title="Health Facts"
         android:icon="@drawable/ic_info"/>
     <item
         android:id="@+id/journalFragment"

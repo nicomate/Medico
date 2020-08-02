@@ -12,18 +12,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".NewNoteActivity"
+        <activity android:name=".NewForumPostActivity"
+            android:label="New Post"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".ViewForumPostActivity"
+            android:label="View Post"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".NewNoteActivity"
             android:label="New Entry"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ViewNoteDataActivity"
-            android:theme="@style/AppTheme"
-            android:label="Notes"/>
+        <activity
+            android:name=".ViewNoteDataActivity"
+            android:label="Notes"
+            android:theme="@style/AppTheme" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LandingPageActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".LandingPageActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,22 +117,14 @@ public class ProfileFragment extends Fragment {
 
         logout = view.findViewById(R.id.logout);
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-            }
+        logout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            startActivity(i);
+            getActivity().onBackPressed();
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SelectImage();
-            }
-        });
-
+        imageView.setOnClickListener(v -> SelectImage());
 
         return view;
     }
@@ -143,6 +136,7 @@ public class ProfileFragment extends Fragment {
         ((LandingPageActivity) getActivity())
                 .setActionBarTitle("Profile");
     }
+
 
     private void SelectImage() {
         Intent i = new Intent();
@@ -168,44 +162,34 @@ public class ProfileFragment extends Fragment {
             + "." + getFileExtension(imageUri));
 
             uploadTask = fileReference.putFile(imageUri);
-            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            uploadTask.continueWithTask(task -> {
 
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-
-                    if (!task.isSuccessful()){
-                        throw task.getException();
-                    }
-
-                    return fileReference.getDownloadUrl();
+                if (!task.isSuccessful()){
+                    throw task.getException();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>(){
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()){
 
-                        Uri downloadUri = task.getResult();
-                        String mUri = downloadUri.toString();
+                return fileReference.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
 
-                        reference = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
+                    Uri downloadUri = task.getResult();
+                    String mUri = downloadUri.toString();
 
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("imageURL", mUri);
-                        reference.updateChildren(map);
+                    reference = FirebaseDatabase.getInstance().getReference("MyUsers").child(firebaseUser.getUid());
 
-                        progressDialog.dismiss();
-                    } else {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("imageURL", mUri);
+                    reference.updateChildren(map);
 
-                        Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                } else {
+
+                    Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             });
         } else {
 

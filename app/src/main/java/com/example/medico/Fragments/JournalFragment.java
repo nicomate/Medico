@@ -1,7 +1,6 @@
 package com.example.medico.Fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,6 @@ import com.example.medico.R;
 import com.example.medico.SwipeToDeleteCallback;
 import com.example.medico.model.NoteModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +42,6 @@ public class JournalFragment extends Fragment {
 
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
-    private CoordinatorLayout coordinatorLayout;
     private RecyclerView recyclerView1;
     private NoteItemsAdapter noteAdapter;
 
@@ -71,9 +68,6 @@ public class JournalFragment extends Fragment {
             Toast.makeText(getActivity(), "You need to Log in to access your Journal!", Toast.LENGTH_SHORT).show();
         }
         Log.d(TAG, "onCreateView: auth");
-
-
-        coordinatorLayout = view.findViewById(R.id.coordinator);
 
         recyclerView1 = view.findViewById(R.id.notelist);
         Log.d(TAG, "onCreateView: recyclerview");
