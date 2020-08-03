@@ -3,6 +3,7 @@ package com.example.medico;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -90,7 +91,7 @@ public class ViewForumPostActivity extends AppCompatActivity {
 
         postq.setText(postquestion);
         postbody.setText(posttext);
-        postby.setText(author);
+        postby.setText("By: " + author);
         if (authorimage.equals("default")) {
             postbyimage.setImageResource(R.mipmap.ic_launcher);
         } else {
@@ -107,7 +108,7 @@ public class ViewForumPostActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: firebaseuser is " + firebaseUser);
         forumCommentAdapter =  new ForumCommentAdapter(ViewForumPostActivity.this,forumCommentList);
         rv_comments.setAdapter(forumCommentAdapter);
-        ReadComments();
+
 
         FloatingActionButton newComment = findViewById(R.id.createComment);
         if (firebaseUser == null) {
@@ -116,8 +117,75 @@ public class ViewForumPostActivity extends AppCompatActivity {
             newComment.setOnClickListener(v -> {
                onButtonShowPopupWindowClick(v);
             });
+            SwipeToDelete();
+        }
+        ReadComments();
+    }
+
+    private void SwipeToDelete() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(ViewForumPostActivity.this) {
+
+        @Override
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            try{
+                if (forumCommentAdapter.getAdapterCommentBy(viewHolder.getAdapterPosition()).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    //do nothing;
+                }
+                else {
+                    return 0;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return super.getMovementFlags(recyclerView, viewHolder);
         }
 
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            final int position = viewHolder.getAdapterPosition();
+            Log.d(TAG, "onSwiped: 1 " + position);
+            reference = FirebaseDatabase.getInstance()
+                    .getReference("Posts").child(postid).child("Comments");
+
+            //TODO: delete comment from database - couldn't figure it out
+            Log.d(TAG, "onSwiped: 2 " + forumCommentList.get(position));
+            Log.d(TAG, "onSwiped: 3 " + forumCommentList.get(position).getCommentid());
+            Log.d(TAG, "onSwiped: 4 " + forumCommentList.get(1).getCommentid());
+            Log.d(TAG, "onSwiped: 5 " + viewHolder.getItemId());
+            Log.d(TAG, "onSwiped: 6 " + viewHolder.getAdapterPosition());
+            Log.d(TAG, "onSwiped: 6 " + forumCommentList.get(position).getCommentBy());
+            String object = String.valueOf(forumCommentAdapter.getId(position));
+            Log.d(TAG, "onSwiped: 7 " + object);
+
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                  //  String id = forumCommentAdapter.getId(position);
+                    Log.d(TAG, "onSwiped: 8 " + forumCommentList.get(position).getCommentid());
+                    Log.d(TAG, "onSwiped: 9" + forumCommentList.get(position).getCommentBy());
+                    Log.d(TAG, "onSwiped: 10 " + forumCommentAdapter.getId(position));
+                    Log.d(TAG, "onSwiped: 11 " + forumCommentList.get(1).getCommentid());
+                  //  reference.child(id).removeValue();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            forumCommentAdapter.removeItem(position);
+            forumCommentAdapter.notifyDataSetChanged();
+
+        }
+    };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(rv_comments);
     }
 
     private void ReadComments() {
@@ -163,37 +231,23 @@ public class ViewForumPostActivity extends AppCompatActivity {
         EditText comment = popupView.findViewById(R.id.newComment);
         TextView postComment = popupView.findViewById(R.id.postcomment);
 
-        postComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        postComment.setOnClickListener(v1 -> {
 
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                String key = UUID.randomUUID().toString();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            String key = UUID.randomUUID().toString();
 
-                String newComment = comment.getText().toString();
-                String fuser = firebaseUser.getUid();
-                HashMap<String, Object> hashMap = new HashMap<>();
+            String newComment = comment.getText().toString();
+            String fuser = firebaseUser.getUid();
+            HashMap<String, Object> hashMap = new HashMap<>();
 
-                hashMap.put("commentId", key);
-                hashMap.put("commentText", newComment);
-                hashMap.put("commentBy", fuser);
+            hashMap.put("commentId", key);
+            hashMap.put("commentText", newComment);
+            hashMap.put("commentBy", fuser);
 
-                databaseReference.child("Posts").child(postid).child("Comments").child(key).setValue(hashMap);
+            databaseReference.child("Posts").child(postid).child("Comments").child(key).setValue(hashMap);
 
-                popupWindow.dismiss();
-                forumCommentAdapter.notifyDataSetChanged();
-            }
+            popupWindow.dismiss();
+            forumCommentAdapter.notifyDataSetChanged();
         });
-
     }
-
-
-
-
-    //TODO: view forum post xml layout - postquestion, then text with posted by, using intent extra
-    // Recyclerview of comment - comment adapter
-    // add new comments
-    // comment layout
-    // delete post / delete comment / edit post / edit comment
-
 }

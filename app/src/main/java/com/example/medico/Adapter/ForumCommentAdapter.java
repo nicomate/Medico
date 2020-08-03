@@ -94,7 +94,10 @@ public class ForumCommentAdapter extends RecyclerView.Adapter<ForumCommentAdapte
             commentBy = itemView.findViewById(R.id.commentby);
             commentImage = itemView.findViewById(R.id.commentimage);
         }
+    }
 
+    public String getAdapterCommentBy(int position) {
+        return forumCommentList.get(position).getCommentBy();
     }
 
     public void removeItem(int position) {

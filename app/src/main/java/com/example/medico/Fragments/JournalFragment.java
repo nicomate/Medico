@@ -45,7 +45,7 @@ public class JournalFragment extends Fragment {
     private RecyclerView recyclerView1;
     private NoteItemsAdapter noteAdapter;
 
-    List<NoteModel> noteModels;
+    private List<NoteModel> noteModels;
 
 
     public JournalFragment() {
@@ -60,6 +60,7 @@ public class JournalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_journal, container, false);
         Log.d(TAG, "onCreateView: inflateview");
 
+        //Auth to access fragment
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
             Intent i = new Intent(getActivity(), LoginActivity.class);
@@ -68,6 +69,7 @@ public class JournalFragment extends Fragment {
             Toast.makeText(getActivity(), "You need to Log in to access your Journal!", Toast.LENGTH_SHORT).show();
         }
         Log.d(TAG, "onCreateView: auth");
+
 
         recyclerView1 = view.findViewById(R.id.notelist);
         Log.d(TAG, "onCreateView: recyclerview");
@@ -79,6 +81,9 @@ public class JournalFragment extends Fragment {
 
         noteModels = new ArrayList<>();
 
+        noteAdapter =  new NoteItemsAdapter(getContext(),noteModels);
+        recyclerView1.setAdapter(noteAdapter);
+
         ReadNotes();
         Log.d(TAG, "onCreateView:  readnotes method");
 
@@ -89,7 +94,6 @@ public class JournalFragment extends Fragment {
             Log.d(TAG, "onCreateView: new Note");
 
         });
-
 
         enableSwipeToDelete();
 
@@ -118,7 +122,6 @@ public class JournalFragment extends Fragment {
                 noteModels.clear();
                 Log.d(TAG, "onDataChange: clear");
 
-                try {
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                         Log.d(TAG, "onDataChange: for loop");
                         NoteModel noteModel = snapshot.getValue(NoteModel.class);
@@ -133,17 +136,8 @@ public class JournalFragment extends Fragment {
                             e.printStackTrace();
                             Log.d(TAG, "onDataChange: if statement error");
                         }
-
-                        noteAdapter =  new NoteItemsAdapter(getContext(),noteModels);
-                        Log.d(TAG, "onDataChange: new adapter");
-                        recyclerView1.setAdapter(noteAdapter);
-                        Log.d(TAG, "onDataChange: set adapter");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "onDataChange: for loop catch");
-                }
-
+                    noteAdapter.notifyDataSetChanged();
             }
 
             @Override

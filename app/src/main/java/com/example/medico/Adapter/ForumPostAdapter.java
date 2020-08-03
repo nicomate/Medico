@@ -20,6 +20,7 @@ import com.example.medico.ViewForumPostActivity;
 
 import com.example.medico.model.ForumPost;
 import com.example.medico.model.Users;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -114,6 +115,10 @@ public class ForumPostAdapter extends RecyclerView.Adapter<ForumPostAdapter.View
             postedImage = itemView.findViewById(R.id.postedimage);
         }
 
+    }
+
+    public String getPostedBy(int position) {
+        return forumPostList.get(position).getPostedBy();
     }
 
     public void removeItem(int position) {

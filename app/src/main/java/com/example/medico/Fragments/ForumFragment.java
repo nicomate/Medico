@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +70,8 @@ public class ForumFragment extends Fragment {
         forumPostList = new ArrayList<>();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        forumPostAdapter =  new ForumPostAdapter(getContext(),forumPostList);
+        rv_forum.setAdapter(forumPostAdapter);
         ReadPosts();
         Log.d(TAG, "onCreateView: ReadPosts method");
 
@@ -83,6 +84,7 @@ public class ForumFragment extends Fragment {
                 Intent i = new Intent(getActivity(), NewForumPostActivity.class);
                 startActivity(i);
             });
+            SwipeToDelete();
         }
 
         return view;
@@ -109,8 +111,7 @@ public class ForumFragment extends Fragment {
                         ForumPost forumPost = snapshot.getValue(ForumPost.class);
                         forumPostList.add(forumPost);
                     }
-                    forumPostAdapter =  new ForumPostAdapter(getContext(),forumPostList);
-                    rv_forum.setAdapter(forumPostAdapter);
+                    forumPostAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -123,22 +124,41 @@ public class ForumFragment extends Fragment {
 
     private void SwipeToDelete() {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
+
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                try{
+                    if (forumPostAdapter.getPostedBy(viewHolder.getAdapterPosition()).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        //do nothing;
+                    }
+                    else {
+                        return 0;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return super.getMovementFlags(recyclerView, viewHolder);
+            }
+
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-
                 final int position = viewHolder.getAdapterPosition();
                 reference = FirebaseDatabase.getInstance()
                         .getReference("Posts");
                 reference.child(String.valueOf(forumPostAdapter.getId(position))).setValue(null);
+
                 forumPostAdapter.removeItem(position);
                 forumPostAdapter.notifyDataSetChanged();
+
             }
         };
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
         itemTouchhelper.attachToRecyclerView(rv_forum);
     }
+
 
 
 }

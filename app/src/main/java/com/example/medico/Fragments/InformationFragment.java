@@ -36,6 +36,7 @@ public class InformationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //PhotoView to allow zoom, scroll
         final PhotoView imageView = view.findViewById(R.id.photo_view);
         imageView.setImageResource(R.drawable.quickfacts3);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -51,13 +52,4 @@ public class InformationFragment extends Fragment {
         ((LandingPageActivity) getActivity())
                 .setActionBarTitle("Health Facts");
     }
-
-    private int getImageViewWidth(ImageView imageView) {
-        return imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
-    }
-
-    private int getImageViewHeight(ImageView imageView) {
-        return imageView.getHeight() - imageView.getPaddingTop() - imageView.getPaddingBottom();
-    }
-
 }
