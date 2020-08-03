@@ -165,6 +165,7 @@ public class JournalFragment extends Fragment {
                         .getReference("Notes");
                 reference.child(String.valueOf(noteAdapter.getId(position))).setValue(null);
                 noteAdapter.removeItem(position);
+                noteAdapter.notifyDataSetChanged();
             }
         };
 

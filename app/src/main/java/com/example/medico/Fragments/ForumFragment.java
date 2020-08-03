@@ -5,26 +5,24 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.medico.Adapter.ForumPostAdapter;
-import com.example.medico.Adapter.NoteItemsAdapter;
+
 import com.example.medico.LandingPageActivity;
-import com.example.medico.LoginActivity;
-import com.example.medico.MessageActivity;
+
 import com.example.medico.NewForumPostActivity;
 import com.example.medico.R;
+import com.example.medico.SwipeToDeleteCallback;
 import com.example.medico.model.ForumPost;
-import com.example.medico.model.NoteModel;
-import com.example.medico.model.Users;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 public class ForumFragment extends Fragment {
 
     private static final String TAG = "ForumFragment";
@@ -49,9 +49,7 @@ public class ForumFragment extends Fragment {
     private RecyclerView rv_forum;
     private ForumPostAdapter forumPostAdapter;
 
-    List<ForumPost> forumPostList;
-    String fuser;
-    ImageView postedImage;
+    private List<ForumPost> forumPostList;
 
     public ForumFragment() {
         // Required empty public constructor
@@ -71,37 +69,9 @@ public class ForumFragment extends Fragment {
         rv_forum.setLayoutManager(new LinearLayoutManager(getContext()));
 
         forumPostList = new ArrayList<>();
-        postedImage = view.findViewById(R.id.postedimage);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-  /*      fuser = firebaseUser.getUid();
-        reference = FirebaseDatabase.getInstance().getReference("MyUsers").child(fuser);
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Users user = dataSnapshot.getValue(Users.class);
-
-                if (user.getImageURL().equals("default")) {
-                    postedImage.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    Glide.with(getActivity())
-                            .load(user.getImageURL())
-                            .into(postedImage);
-                }
-
-
-            }
-
-
-
-            @Override
-
-            public void onCancelled(@NonNull DatabaseError databaseError){
-
-            }
-        });
-     */ ReadPosts();
+        ReadPosts();
         Log.d(TAG, "onCreateView: ReadPosts method");
 
         FloatingActionButton newPost = view.findViewById(R.id.newPost);
@@ -128,10 +98,6 @@ public class ForumFragment extends Fragment {
     }
 
     private void ReadPosts() {
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String fuser = firebaseUser.getUid();
-
-
         DatabaseReference reference = FirebaseDatabase.getInstance()
                 .getReference("Posts");
 
@@ -155,4 +121,27 @@ public class ForumFragment extends Fragment {
 
     }
 
+    private void SwipeToDelete() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+
+                final int position = viewHolder.getAdapterPosition();
+                reference = FirebaseDatabase.getInstance()
+                        .getReference("Posts");
+                reference.child(String.valueOf(forumPostAdapter.getId(position))).setValue(null);
+                forumPostAdapter.removeItem(position);
+                forumPostAdapter.notifyDataSetChanged();
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(rv_forum);
+    }
+
+
 }
+
+
+

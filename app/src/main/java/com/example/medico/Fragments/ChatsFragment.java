@@ -69,6 +69,8 @@ public class ChatsFragment extends Fragment {
 
         mUsers = new ArrayList<>();
 
+        userAdapter =  new UserAdapter(getContext(),mUsers);
+        recyclerView.setAdapter(userAdapter);
         ReadUsers();
 
         return view;
@@ -105,9 +107,7 @@ public class ChatsFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    userAdapter =  new UserAdapter(getContext(),mUsers);
-                    recyclerView.setAdapter(userAdapter);
+                    userAdapter.notifyDataSetChanged();
                 }
             }
 

@@ -49,17 +49,21 @@ public class ViewNoteDataActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: fuser is " + fuser);
         reference = FirebaseDatabase.getInstance().getReference("Notes").child(noteid);
 
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String title = dataSnapshot.child("note_title").getValue().toString();
-                String data = dataSnapshot.child("note_data").getValue().toString();
-                Log.d(TAG, "onDataChange: title is " + title);
-                Log.d(TAG, "onDataChange: data is " + data);
-                noteData.setText(data);
-                notetitle.setText(title);
+                try{
+                    String title = dataSnapshot.child("note_title").getValue().toString();
+                    String data = dataSnapshot.child("note_data").getValue().toString();
+                    Log.d(TAG, "onDataChange: title is " + title);
+                    Log.d(TAG, "onDataChange: data is " + data);
+                    noteData.setText(data);
+                    notetitle.setText(title);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

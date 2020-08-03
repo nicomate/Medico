@@ -1,7 +1,7 @@
 package com.example.medico.Adapter;
 
+
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import com.example.medico.R;
+import com.example.medico.ViewForumPostActivity;
 import com.example.medico.model.ForumComment;
+import com.example.medico.model.Users;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.List;
@@ -26,12 +33,10 @@ public class ForumCommentAdapter extends RecyclerView.Adapter<ForumCommentAdapte
 
     private Context context;
     private List<ForumComment> forumCommentList;
-    private String imgURL;
 
-    public ForumCommentAdapter(Context context, List<ForumComment> forumCommentList, String imgURL) {
+    public ForumCommentAdapter(ViewForumPostActivity context, List<ForumComment> forumCommentList) {
         this.context = context;
         this.forumCommentList = forumCommentList;
-        this.imgURL = imgURL;
     }
 
 
@@ -48,14 +53,27 @@ public class ForumCommentAdapter extends RecyclerView.Adapter<ForumCommentAdapte
     public void onBindViewHolder(@NonNull ForumCommentAdapter.ViewHolder holder, int position) {
         ForumComment forumComment = forumCommentList.get(position);
         holder.comment.setText(forumComment.getCommentText());
-        holder.commentBy.setText(forumComment.getCommentBy());
+        String commentBy = forumCommentList.get(position).getCommentBy();
 
-        if (imgURL.equals("default")) {
-            Log.d(TAG, "onBindViewHolder: if img");
-            holder.commentImage.setImageResource(R.mipmap.ic_launcher);
-        } else {
-            Glide.with(context).load(imgURL).into(holder.commentImage);
-        }
+        DatabaseReference reference = FirebaseDatabase.getInstance()
+                .getReference("MyUsers").child(commentBy);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Users user = dataSnapshot.getValue(Users.class);
+                String username = "By: " + user.getUsername();
+                if (user.getImageURL().equals("default")) {
+                    holder.commentImage.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Glide.with(context).load(user.getImageURL()).into(holder.commentImage);
+                }
+                holder.commentBy.setText(username);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
     }
 
@@ -77,5 +95,14 @@ public class ForumCommentAdapter extends RecyclerView.Adapter<ForumCommentAdapte
             commentImage = itemView.findViewById(R.id.commentimage);
         }
 
+    }
+
+    public void removeItem(int position) {
+        forumCommentList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public String getId(int position){
+        return forumCommentList.get(position).getCommentid();
     }
 }

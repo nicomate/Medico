@@ -2,6 +2,7 @@ package com.example.medico.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,13 +63,25 @@ public class ForumPostAdapter extends RecyclerView.Adapter<ForumPostAdapter.View
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Users user = dataSnapshot.getValue(Users.class);
-                String front = "By: " + user.getUsername();
+                String username = "By: " + user.getUsername();
                 if (user.getImageURL().equals("default")) {
                     holder.postedImage.setImageResource(R.mipmap.ic_launcher);
                 } else {
                     Glide.with(context).load(user.getImageURL()).into(holder.postedImage);
                 }
-                holder.postedBy.setText(front);
+                holder.postedBy.setText(username);
+
+                holder.itemView.setOnClickListener(v -> {
+                    Intent i = new Intent(context, ViewForumPostActivity.class);
+                    i.putExtra("postid", forumPost.getPostId());
+                    i.putExtra("postquestion", forumPost.getPostQuestion());
+                    i.putExtra("postbody",forumPost.getPostBody());
+                    i.putExtra("postbyimage", user.getImageURL());
+                    i.putExtra("postedby", user.getUsername());
+                    context.startActivity(i);
+                    Log.d(TAG, "onBindViewHolder: to ViewForumPostActivity");
+                });
+
             }
 
             @Override
@@ -78,13 +91,8 @@ public class ForumPostAdapter extends RecyclerView.Adapter<ForumPostAdapter.View
 /*
 
 */
-       holder.itemView.setOnClickListener(v -> {
-            Intent i = new Intent(context, ViewForumPostActivity.class);
-            i.putExtra("forumPostid", forumPost.getPostId());
-            context.startActivity(i);
-            Log.d(TAG, "onBindViewHolder: to ViewForumPostActivity");
-       });
-        Log.d(TAG, "onBindViewHolder");
+
+
     }
 
     @Override
@@ -106,6 +114,15 @@ public class ForumPostAdapter extends RecyclerView.Adapter<ForumPostAdapter.View
             postedImage = itemView.findViewById(R.id.postedimage);
         }
 
+    }
+
+    public void removeItem(int position) {
+        forumPostList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public String getId(int position){
+        return forumPostList.get(position).getPostId();
     }
 }
 
