@@ -8,3 +8,8 @@ Access the app for demonstration purposes via:
 Email: tysonlee@gmail.com 
 
 password: tyson1
+
+Current issues:
+- Unable to delete forum post comments from firebase
+- No practitioner view at the moment - need to fix Chat Fragment to view only practitioners, at the moment just shows registered users
+- picture in the information fragment loads up in the centre instead of starting at the top.
