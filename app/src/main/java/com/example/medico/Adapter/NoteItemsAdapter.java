@@ -78,10 +78,6 @@ public class NoteItemsAdapter extends RecyclerView.Adapter<NoteItemsAdapter.View
         notifyItemRemoved(position);
     }
 
-    public List<NoteModel> getData(int position) {
-        return noteModelList;
-    }
-
     public String getId(int position){
         return noteModelList.get(position).getId();
     }

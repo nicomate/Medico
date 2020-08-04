@@ -72,6 +72,7 @@ public class ForumFragment extends Fragment {
 
         forumPostAdapter =  new ForumPostAdapter(getContext(),forumPostList);
         rv_forum.setAdapter(forumPostAdapter);
+
         ReadPosts();
         Log.d(TAG, "onCreateView: ReadPosts method");
 
@@ -129,7 +130,7 @@ public class ForumFragment extends Fragment {
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 try{
                     if (forumPostAdapter.getPostedBy(viewHolder.getAdapterPosition()).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        //do nothing;
+                        //only the delete post if the user create that post
                     }
                     else {
                         return 0;
